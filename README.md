@@ -1,6 +1,6 @@
-# Altair the stiles way
+# Altair, my way
 
-The stiles theme for Altair visualization library in Python
+The Stiles theme for Altair visualization library in Python
 
 ### Getting started
 
