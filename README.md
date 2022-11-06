@@ -1,6 +1,6 @@
 # Altair, my way
 
-The `Stiles` theme for [Altair visualization](https://altair-viz.github.io/) library for Python.
+The `Stiles` theme for the [Altair visualization](https://altair-viz.github.io/) library in Python.
 
 ### Getting started
 
