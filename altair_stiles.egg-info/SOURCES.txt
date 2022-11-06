@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+altair_stiles/__init__.py
+altair_stiles.egg-info/PKG-INFO
+altair_stiles.egg-info/SOURCES.txt
+altair_stiles.egg-info/dependency_links.txt
+altair_stiles.egg-info/top_level.txt

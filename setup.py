@@ -2,12 +2,12 @@ from setuptools import setup
 
 setup(
     name='altair-stiles',
-    version='0.0.2',
-    description="A stiles.news theme for Python's Altair statistical visualization library",
-    long_description="A stiles.news theme for Python's Altair statistical visualization library",
+    version='0.0.1',
+    description="A theme for Python's Altair statistical visualization library",
+    long_description="A theme for Python's Altair statistical visualization library",
     long_description_content_type='text/x-rst',
-    author='stiles Investigations and Data',
-    author_email='mstiles@stiles.news',
+    author='Matt Stiles',
+    author_email='mattstiles@gmail.com',
     url='http://www.github.com/stilesviz/altair-stiles',
     license="MIT",
     packages=('altair_stiles',),

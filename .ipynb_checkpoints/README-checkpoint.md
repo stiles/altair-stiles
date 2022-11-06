@@ -1,6 +1,6 @@
 # Altair, my way
 
-The Stiles theme for Altair visualization library in Python
+The `Stiles` theme for the [Altair visualization](https://altair-viz.github.io/) library in Python.
 
 ### Getting started
 
@@ -33,22 +33,22 @@ source = data.iowa_electricity()
 alt.Chart(source, title="Iowa's renewable energy boom").mark_area().encode(
     x=alt.X(
         "year:T",
-        title="Year"
+        title=" "
     ),
     y=alt.Y(
         "net_generation:Q",
         stack="normalize",
-        title="Share of net generation",
-        axis=alt.Axis(format=".0%"),
+        title=" ",
+        axis=alt.Axis(format=".0%", tickCount=5),
     ),
     color=alt.Color(
         "source:N",
-        legend=alt.Legend(title="Electricity source"),
+        legend=alt.Legend(title=" "),
     )
-)
+).configure_legend(orient='top')
 ```
 
-![example](./iowa.png)
+![example](./area.png)
 
 ### What else?
 
