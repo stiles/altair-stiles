@@ -3,29 +3,29 @@ A stiles theme for Altair.
 """
 # Color schemes and defaults
 palette = dict(
-    black="#333333",
+    black="#1a1a1a",
     white="#ffffff",
-    default="#1c9099",
-    accent="#016c59",
-    highlight="#00848b",
+    default="#64938B",
+    accent="#21594E",
+    highlight="#21594E",
     democrat="#6baed6",
     republican="#fb6a4a",
     schemes={
         "category-5": [
-            "#66c2a5",
-            "#fc8d62",
-            "#8da0cb",
-            "#e78ac3",
-            "#a6d854",
+            "#64938B",
+            "#d95f02",
+            "#7570b3",
+            "#e7298a",
+            "#66a61e",
         ],
         "teal-7": [
-            "#7ff6f6",
-            "#00eeef",
-            "#00d4d8",
-            "#00abb2",
-            "#00848b",
-            "#fbf2c7",
-            '#00363d',
+            "#C7EAE5",
+            "#A6CDC7",
+            "#85B0A9",
+            "#64938B",
+            "#42766C",
+            "#21594E",
+            "#003C30"
         ],
         "fireandice-6": [
             "#e68a4f",
@@ -53,6 +53,15 @@ palette = dict(
             "#7fbf7b",
             "#1b7837",
         ],
+        "cb-diverging-bluegreen": [
+            "#8c510a",
+            "#d8b365",
+            "#f6e8c3",
+            "#f5f5f5",
+            "#c7eae5",
+            "#5ab4ac",
+            "#01665e",
+        ]
     },
 )
 
@@ -62,18 +71,18 @@ def theme():
     A stiles theme for Altair.
     """
     # Headlines
-    headlineFontSize = 17
+    headlineFontSize = 18
     headlineFontWeight = "bold"
-    headlineFont = "Roboto Bold"
+    headlineFont = "Roboto"
 
     # Titles for axes and legends
-    titleFont = "Roboto, sans"
-    titleFontWeight = "normal"
-    titleFontSize = 15
-    titleFontColor = '#1a1a1a'
+    titleFont = "Roboto"
+    titleFontWeight = "bold"
+    titleFontSize = 13
+    titleFontColor = '#333333'
 
     # Labels for ticks and legend entries
-    labelFont = "Roboto, sans"
+    labelFont = "Roboto"
     labelFontSize = 13
     labelFontWeight = "normal"
     labelFontColor = '#1a1a1a'
@@ -81,17 +90,20 @@ def theme():
 
     return dict(
         config=dict(
-            view=dict(width=700, height=400, strokeOpacity=0),
+            padding={"left": -10, "top": 10, "right": 5, "bottom": 0},
+            view=dict(width=650, height=400, strokeOpacity=0),
             background=palette["white"],
             title=dict(
                 anchor="start",
                 font=headlineFont,
-                fontColor='palette["black"]',
+                fontColor=palette["black"],
                 fontSize=headlineFontSize,
                 fontWeight=headlineFontWeight,
+                dy=-10,
+                dx=10
             ),
             arc=dict(fill=palette["default"]),
-            area=dict(fill=palette["default"]),
+            area=dict(fill=palette["default"], opacity=.6),
             line=dict(stroke=palette["default"], strokeWidth=3),
             path=dict(stroke=palette["default"]),
             rect=dict(fill=palette["default"]),
@@ -106,20 +118,21 @@ def theme():
                 labelFont=labelFont,
                 labelFontSize=labelFontSize,
                 labelFontWeight=labelFontWeight,
+                labelFontColor='#e9e9e9'
             ),
-            axisX=dict(labelAngle=0, labelPadding=6, tickSize=3, stiles=False),
+            axisX=dict(labelAngle=0, labelPadding=6, tickSize=3, grid=False),
             axisY=dict(
                 labelBaseline="middle",
                 maxExtent=45,
                 minExtent=45,
                 titleAlign="left",
                 titleAngle=0,
-                titleX=-45,
-                titleY=-11,
+                titleX=-35,
+                titleY=-22,
                 domainOpacity=0,
-                stilesWidth=0.6,
-                stilesColor="#dddddd",
-                offset=6,
+                gridWidth=0.6,
+                gridColor="#dddddd",
+                offset=10,
                 tickSize=0,
                 titleColor='#1a1a1a'
             ),
@@ -130,10 +143,11 @@ def theme():
                 symbolType="square",
                 labelFont=labelFont,
                 labelFontSize=labelFontSize,
+                anchor='start'
             ),
             range=dict(
                 category=palette["schemes"]["category-5"],
-                diverging=palette["schemes"]["cb-diverging-purpgrn"],
+                diverging=palette["schemes"]["cb-diverging-bluegreen"],
                 heatmap=palette["schemes"]["teal-7"],
                 ordinal=palette["schemes"]["category-5"],
                 ramp=palette["schemes"]["teal-7"],
