@@ -48,7 +48,7 @@ alt.Chart(source, title="Iowa's renewable energy boom").mark_area().encode(
 )
 ```
 
-![example](./iowa.png)
+![example](./area.png)
 
 ### What else?
 
