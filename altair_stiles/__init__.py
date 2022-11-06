@@ -128,7 +128,7 @@ def theme():
                 titleAlign="left",
                 titleAngle=0,
                 titleX=-35,
-                titleY=-22,
+                titleY=-46,
                 domainOpacity=0,
                 gridWidth=0.6,
                 gridColor="#dddddd",
@@ -143,7 +143,8 @@ def theme():
                 symbolType="square",
                 labelFont=labelFont,
                 labelFontSize=labelFontSize,
-                anchor='start'
+                anchor='middle',
+                legendX=-50
             ),
             range=dict(
                 category=palette["schemes"]["category-5"],

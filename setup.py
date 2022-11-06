@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='altair-stiles',
-    version='0.0.1',
+    version='0.0.2',
     description="A theme for Python's Altair statistical visualization library",
     long_description="A theme for Python's Altair statistical visualization library",
     long_description_content_type='text/x-rst',
