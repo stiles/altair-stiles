@@ -4,7 +4,7 @@ The `Stiles` theme for the [Altair visualization](https://altair-viz.github.io/)
 
 ### Getting started
 
-Install from PyPI.
+Install [from PyPI](https://pypi.org/project/altair-stiles/).
 
 ```bash
 $ pip install altair-stiles
