@@ -103,4 +103,14 @@ uv run examples/gallery.py   # re-render examples/img and examples/README.md
 uv build                     # wheel and sdist in dist/
 ```
 
+To release a new version:
+
+```bash
+uv version --bump minor      # or patch, major
+git commit -am "v$(uv version --short)" && git push
+gh release create "v$(uv version --short)" --generate-notes
+```
+
+Publishing the GitHub release runs the publish workflow, which tests, builds and uploads to PyPI.
+
 Inter is licensed under the [SIL Open Font License](src/altair_stiles/fonts/OFL.txt). The code is MIT.
