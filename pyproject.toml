@@ -1,0 +1,55 @@
+[project]
+name = "altair-stiles"
+version = "0.1.0"
+description = "Matt Stiles' chart theme for Altair"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Matt Stiles" }]
+requires-python = ">=3.10"
+dependencies = ["altair>=5.5"]
+keywords = ["altair", "vega-lite", "theme", "dataviz"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Jupyter",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Repository = "https://github.com/stiles/altair-stiles"
+Examples = "https://github.com/stiles/altair-stiles/tree/master/examples"
+
+# Altair discovers themes through entry points, so `alt.theme.enable("stiles")`
+# works after install without importing this package. The group name carries
+# the Vega-Lite major version, so both current ones are listed.
+[project.entry-points."altair.vegalite.v5.theme"]
+stiles = "altair_stiles:theme"
+
+[project.entry-points."altair.vegalite.v6.theme"]
+stiles = "altair_stiles:theme"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.8",
+    "vl-convert-python>=1.7", # renders the example gallery to PNG
+    "pandas>=2",
+]
+
+[build-system]
+requires = ["uv_build>=0.11,<0.12"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff.format]
+exclude = ["*.md"]

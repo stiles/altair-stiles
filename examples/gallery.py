@@ -1,0 +1,225 @@
+"""Render the example gallery.
+
+    uv run examples/gallery.py
+
+Each function below returns one chart. The script saves each chart as a PNG in
+examples/img/ and rewrites examples/README.md with the image and its code.
+"""
+
+from __future__ import annotations
+
+import inspect
+import textwrap
+from pathlib import Path
+
+import altair as alt
+from altair.datasets import data
+
+import altair_stiles
+
+HERE = Path(__file__).parent
+EXAMPLES = []
+
+
+def example(fn):
+    EXAMPLES.append(fn)
+    return fn
+
+
+@example
+def bar():
+    """Bar chart"""
+    source = data.barley()
+
+    return (
+        alt.Chart(source, title="Barley yields by variety")
+        .mark_bar()
+        .encode(
+            x=alt.X("mean(yield):Q").title("Average yield, bushels per acre"),
+            y=alt.Y("variety:N").sort("-x").title(None),
+        )
+    )
+
+
+@example
+def line():
+    """Line chart"""
+    source = data.stocks()
+
+    return (
+        alt.Chart(
+            source,
+            title=alt.Title(
+                "Tech stocks before and after the crash",
+                subtitle="Monthly closing price, 2000 to 2010",
+            ),
+        )
+        .mark_line()
+        .encode(
+            x=alt.X("date:T").title(None),
+            y=alt.Y("price:Q").title(None).axis(format="$,.0f"),
+            color=alt.Color("symbol:N").title(None),
+        )
+    )
+
+
+@example
+def area():
+    """Stacked area chart"""
+    source = data.iowa_electricity()
+
+    return (
+        alt.Chart(
+            source,
+            title=alt.Title(
+                "Iowa's renewable energy boom",
+                subtitle="Share of net electricity generation, by source",
+            ),
+        )
+        .mark_area()
+        .encode(
+            x=alt.X("year:T").title(None),
+            y=alt.Y("net_generation:Q")
+            .stack("normalize")
+            .title(None)
+            .axis(format=".0%"),
+            color=alt.Color("source:N").title(None),
+        )
+    )
+
+
+@example
+def scatter():
+    """Scatter plot"""
+    source = data.cars()
+
+    return (
+        alt.Chart(source, title="More horsepower, fewer miles per gallon")
+        .mark_circle()
+        .encode(
+            x=alt.X("Horsepower:Q").title("Horsepower"),
+            y=alt.Y("Miles_per_Gallon:Q").title("Miles per gallon"),
+            color=alt.Color("Origin:N").title(None),
+            tooltip=["Name", "Origin", "Horsepower", "Miles_per_Gallon"],
+        )
+    )
+
+
+@example
+def highlight():
+    """Highlighting one bar"""
+    source = data.wheat()
+    is_peak = alt.datum.year == 1810
+
+    return (
+        alt.Chart(source, title="Wheat prices peaked in 1810")
+        .mark_bar()
+        .encode(
+            x=alt.X("year:O").title(None).axis(labelOverlap=True),
+            y=alt.Y("wheat:Q").title("Shillings per quarter"),
+            color=alt.when(is_peak)
+            .then(alt.value(altair_stiles.palette["accent"]))
+            .otherwise(alt.value(altair_stiles.palette["default"])),
+        )
+    )
+
+
+@example
+def histogram():
+    """Histogram with labels"""
+    source = data.movies()
+
+    base = alt.Chart(source, title="Most movies rate between 6 and 7 on IMDB").encode(
+        x=alt.X("IMDB Rating:Q").bin().title("IMDB rating"),
+        y=alt.Y("count():Q").title(None),
+    )
+    bars = base.mark_bar()
+    labels = base.mark_text(dy=-8).encode(text="count():Q")
+
+    return bars + labels
+
+
+@example
+def heatmap():
+    """Heatmap"""
+    source = data.seattle_weather()
+
+    return (
+        alt.Chart(source, title="Daily high temperatures in Seattle, 2012 to 2015")
+        .mark_rect()
+        .encode(
+            x=alt.X("date(date):O").title("Day of the month"),
+            y=alt.Y("month(date):O").title(None),
+            color=alt.Color("max(temp_max):Q").title("Hottest reading, °C"),
+        )
+        .properties(width=650)
+    )
+
+
+@example
+def dot_map():
+    """Dot map"""
+    source = data.zipcodes()
+
+    return (
+        alt.Chart(source, title="ZIP codes by first digit")
+        # zip_code loads as a number, so 02139 arrives as 2139. Pad it back.
+        .transform_calculate(
+            digit="substring(pad(datum.zip_code, 5, '0', 'left'), 0, 1)"
+        )
+        .mark_circle(size=3)
+        .encode(
+            longitude="longitude:Q",
+            latitude="latitude:Q",
+            color=alt.Color("digit:N").title(None).scale(scheme="tableau10"),
+        )
+        .project("albersUsa")
+    )
+
+
+def body_source(fn) -> str:
+    """The function body, dedented, with `return (...)` turned into a bare chart."""
+    lines = inspect.getsource(fn).splitlines()
+    start = next(i for i, line in enumerate(lines) if line.strip().startswith('"""'))
+    body = textwrap.dedent("\n".join(lines[start + 1 :])).strip()
+    return body.replace("return (", "(").replace("return ", "")
+
+
+def main() -> None:
+    altair_stiles.enable()
+    img = HERE / "img"
+    img.mkdir(exist_ok=True)
+
+    parts = [
+        "# Examples",
+        "",
+        "Generated by [`gallery.py`](gallery.py). Every chart starts with:",
+        "",
+        "```python",
+        "import altair as alt",
+        "from altair.datasets import data",
+        "",
+        "import altair_stiles",
+        "",
+        'alt.theme.enable("stiles")',
+        "```",
+    ]
+    for fn in EXAMPLES:
+        fn().save(img / f"{fn.__name__}.png", scale_factor=2)
+        parts += [
+            "",
+            f"## {fn.__doc__}",
+            "",
+            f"![{fn.__doc__}](img/{fn.__name__}.png)",
+            "",
+            "```python",
+            body_source(fn),
+            "```",
+        ]
+        print(f"rendered {fn.__name__}")
+
+    (HERE / "README.md").write_text("\n".join(parts) + "\n")
+
+
+if __name__ == "__main__":
+    main()
