@@ -19,7 +19,7 @@ classifiers = [
 
 [project.urls]
 Repository = "https://github.com/stiles/altair-stiles"
-Examples = "https://github.com/stiles/altair-stiles/tree/master/examples"
+Examples = "https://github.com/stiles/altair-stiles/tree/main/examples"
 
 # Altair discovers themes through entry points, so `alt.theme.enable("stiles")`
 # works after install without importing this package. The group name carries
